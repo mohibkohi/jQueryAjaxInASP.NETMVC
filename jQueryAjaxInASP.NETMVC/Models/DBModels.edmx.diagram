@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f95b58e4f59f4db792b5afd70ca2b0bf" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="JQueryAjaxDBModel.City" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="JQueryAjaxDBModel.Country" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JQueryAjaxDBModel.Person" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JQueryAjaxDBModel.StateProvince" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_Cities_Application_People" ManuallyRouted="false" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_Cities_StateProvinceID_Application_StateProvinces" ManuallyRouted="false" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_Countries_Application_People" ManuallyRouted="false" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_StateProvinces_CountryID_Application_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_People_Application_People" ManuallyRouted="false" />
+        <AssociationConnector Association="JQueryAjaxDBModel.FK_Application_StateProvinces_Application_People" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

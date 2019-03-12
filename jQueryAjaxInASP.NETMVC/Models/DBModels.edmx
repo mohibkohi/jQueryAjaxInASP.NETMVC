@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="JQueryAjaxDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StateProvinceID" Type="int" Nullable="false" />
+          <Property Name="Location" Type="geography" />
+          <Property Name="LatestRecordedPopulation" Type="bigint" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="FormalName" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="IsoAlpha3Code" Type="nvarchar" MaxLength="3" />
+          <Property Name="IsoNumericCode" Type="int" />
+          <Property Name="CountryType" Type="nvarchar" MaxLength="20" />
+          <Property Name="LatestRecordedPopulation" Type="bigint" />
+          <Property Name="Continent" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Region" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Subregion" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Border" Type="geography" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PreferredName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SearchName" Type="nvarchar" MaxLength="101" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="IsPermittedToLogon" Type="bit" Nullable="false" />
+          <Property Name="LogonName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsExternalLogonProvider" Type="bit" Nullable="false" />
+          <Property Name="HashedPassword" Type="varbinary(max)" />
+          <Property Name="IsSystemUser" Type="bit" Nullable="false" />
+          <Property Name="IsEmployee" Type="bit" Nullable="false" />
+          <Property Name="IsSalesperson" Type="bit" Nullable="false" />
+          <Property Name="UserPreferences" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="CustomFields" Type="nvarchar(max)" />
+          <Property Name="OtherLanguages" Type="nvarchar(max)" StoreGeneratedPattern="Computed" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StateProvinces">
+          <Key>
+            <PropertyRef Name="StateProvinceID" />
+          </Key>
+          <Property Name="StateProvinceID" Type="int" Nullable="false" />
+          <Property Name="StateProvinceCode" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="StateProvinceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="SalesTerritory" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Border" Type="geography" />
+          <Property Name="LatestRecordedPopulation" Type="bigint" />
+          <Property Name="LastEditedBy" Type="int" Nullable="false" />
+          <Property Name="ValidFrom" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Application_Cities_Application_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Cities_StateProvinceID_Application_StateProvinces">
+          <End Role="StateProvinces" Type="Self.StateProvinces" Multiplicity="1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateProvinces">
+              <PropertyRef Name="StateProvinceID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="StateProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Countries_Application_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_People_Application_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="People1" Type="Self.People" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="People1">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_StateProvinces_Application_People">
+          <End Role="People" Type="Self.People" Multiplicity="1" />
+          <End Role="StateProvinces" Type="Self.StateProvinces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="StateProvinces">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_StateProvinces_CountryID_Application_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="StateProvinces" Type="Self.StateProvinces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="StateProvinces">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JQueryAjaxDBModelStoreContainer">
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="Application" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="Application" store:Type="Tables" />
+          <EntitySet Name="People" EntityType="Self.People" Schema="Application" store:Type="Tables" />
+          <EntitySet Name="StateProvinces" EntityType="Self.StateProvinces" Schema="Application" store:Type="Tables" />
+          <AssociationSet Name="FK_Application_Cities_Application_People" Association="Self.FK_Application_Cities_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Cities_StateProvinceID_Application_StateProvinces" Association="Self.FK_Application_Cities_StateProvinceID_Application_StateProvinces">
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Countries_Application_People" Association="Self.FK_Application_Countries_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_People_Application_People" Association="Self.FK_Application_People_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="People1" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_StateProvinces_Application_People" Association="Self.FK_Application_StateProvinces_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_StateProvinces_CountryID_Application_Countries" Association="Self.FK_Application_StateProvinces_CountryID_Application_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JQueryAjaxDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="Geography" />
+          <Property Name="LatestRecordedPopulation" Type="Int64" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Application_Cities_Application_People" FromRole="Cities" ToRole="People" />
+          <NavigationProperty Name="StateProvince" Relationship="Self.FK_Application_Cities_StateProvinceID_Application_StateProvinces" FromRole="Cities" ToRole="StateProvinces" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FormalName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsoAlpha3Code" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="IsoNumericCode" Type="Int32" />
+          <Property Name="CountryType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LatestRecordedPopulation" Type="Int64" />
+          <Property Name="Continent" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subregion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Border" Type="Geography" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Application_Countries_Application_People" FromRole="Countries" ToRole="People" />
+          <NavigationProperty Name="StateProvinces" Relationship="Self.FK_Application_StateProvinces_CountryID_Application_Countries" FromRole="Countries" ToRole="StateProvinces" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PreferredName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SearchName" Type="String" MaxLength="101" FixedLength="false" Unicode="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="IsPermittedToLogon" Type="Boolean" Nullable="false" />
+          <Property Name="LogonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsExternalLogonProvider" Type="Boolean" Nullable="false" />
+          <Property Name="HashedPassword" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsSystemUser" Type="Boolean" Nullable="false" />
+          <Property Name="IsEmployee" Type="Boolean" Nullable="false" />
+          <Property Name="IsSalesperson" Type="Boolean" Nullable="false" />
+          <Property Name="UserPreferences" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FaxNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CustomFields" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherLanguages" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Application_Cities_Application_People" FromRole="People" ToRole="Cities" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Application_Countries_Application_People" FromRole="People" ToRole="Countries" />
+          <NavigationProperty Name="People1" Relationship="Self.FK_Application_People_Application_People" FromRole="People" ToRole="People1" />
+          <NavigationProperty Name="Person1" Relationship="Self.FK_Application_People_Application_People" FromRole="People1" ToRole="People" />
+          <NavigationProperty Name="StateProvinces" Relationship="Self.FK_Application_StateProvinces_Application_People" FromRole="People" ToRole="StateProvinces" />
+        </EntityType>
+        <EntityType Name="StateProvince">
+          <Key>
+            <PropertyRef Name="StateProvinceID" />
+          </Key>
+          <Property Name="StateProvinceID" Type="Int32" Nullable="false" />
+          <Property Name="StateProvinceCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StateProvinceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="SalesTerritory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Border" Type="Geography" />
+          <Property Name="LatestRecordedPopulation" Type="Int64" />
+          <Property Name="LastEditedBy" Type="Int32" Nullable="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Application_Cities_StateProvinceID_Application_StateProvinces" FromRole="StateProvinces" ToRole="Cities" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Application_StateProvinces_CountryID_Application_Countries" FromRole="StateProvinces" ToRole="Countries" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Application_StateProvinces_Application_People" FromRole="StateProvinces" ToRole="People" />
+        </EntityType>
+        <Association Name="FK_Application_Cities_Application_People">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Cities_StateProvinceID_Application_StateProvinces">
+          <End Role="StateProvinces" Type="Self.StateProvince" Multiplicity="1" />
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateProvinces">
+              <PropertyRef Name="StateProvinceID" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="StateProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Countries_Application_People">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="Countries" Type="Self.Country" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_StateProvinces_CountryID_Application_Countries">
+          <End Role="Countries" Type="Self.Country" Multiplicity="1" />
+          <End Role="StateProvinces" Type="Self.StateProvince" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="StateProvinces">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_People_Application_People">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="People1" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="People1">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_StateProvinces_Application_People">
+          <End Role="People" Type="Self.Person" Multiplicity="1" />
+          <End Role="StateProvinces" Type="Self.StateProvince" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="People">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="StateProvinces">
+              <PropertyRef Name="LastEditedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="StateProvinces" EntityType="Self.StateProvince" />
+          <AssociationSet Name="FK_Application_Cities_Application_People" Association="Self.FK_Application_Cities_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Cities_StateProvinceID_Application_StateProvinces" Association="Self.FK_Application_Cities_StateProvinceID_Application_StateProvinces">
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Countries_Application_People" Association="Self.FK_Application_Countries_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_StateProvinces_CountryID_Application_Countries" Association="Self.FK_Application_StateProvinces_CountryID_Application_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_People_Application_People" Association="Self.FK_Application_People_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="People1" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_StateProvinces_Application_People" Association="Self.FK_Application_StateProvinces_Application_People">
+            <End Role="People" EntitySet="People" />
+            <End Role="StateProvinces" EntitySet="StateProvinces" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JQueryAjaxDBModelStoreContainer" CdmEntityContainer="DBModel">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="JQueryAjaxDBModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="LatestRecordedPopulation" ColumnName="LatestRecordedPopulation" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="JQueryAjaxDBModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="FormalName" ColumnName="FormalName" />
+                <ScalarProperty Name="IsoAlpha3Code" ColumnName="IsoAlpha3Code" />
+                <ScalarProperty Name="IsoNumericCode" ColumnName="IsoNumericCode" />
+                <ScalarProperty Name="CountryType" ColumnName="CountryType" />
+                <ScalarProperty Name="LatestRecordedPopulation" ColumnName="LatestRecordedPopulation" />
+                <ScalarProperty Name="Continent" ColumnName="Continent" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Subregion" ColumnName="Subregion" />
+                <ScalarProperty Name="Border" ColumnName="Border" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="JQueryAjaxDBModel.Person">
+              <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
+                <ScalarProperty Name="SearchName" ColumnName="SearchName" />
+                <ScalarProperty Name="IsPermittedToLogon" ColumnName="IsPermittedToLogon" />
+                <ScalarProperty Name="LogonName" ColumnName="LogonName" />
+                <ScalarProperty Name="IsExternalLogonProvider" ColumnName="IsExternalLogonProvider" />
+                <ScalarProperty Name="HashedPassword" ColumnName="HashedPassword" />
+                <ScalarProperty Name="IsSystemUser" ColumnName="IsSystemUser" />
+                <ScalarProperty Name="IsEmployee" ColumnName="IsEmployee" />
+                <ScalarProperty Name="IsSalesperson" ColumnName="IsSalesperson" />
+                <ScalarProperty Name="UserPreferences" ColumnName="UserPreferences" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="CustomFields" ColumnName="CustomFields" />
+                <ScalarProperty Name="OtherLanguages" ColumnName="OtherLanguages" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateProvinces">
+            <EntityTypeMapping TypeName="JQueryAjaxDBModel.StateProvince">
+              <MappingFragment StoreEntitySet="StateProvinces">
+                <ScalarProperty Name="StateProvinceID" ColumnName="StateProvinceID" />
+                <ScalarProperty Name="StateProvinceCode" ColumnName="StateProvinceCode" />
+                <ScalarProperty Name="StateProvinceName" ColumnName="StateProvinceName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="SalesTerritory" ColumnName="SalesTerritory" />
+                <ScalarProperty Name="Border" ColumnName="Border" />
+                <ScalarProperty Name="LatestRecordedPopulation" ColumnName="LatestRecordedPopulation" />
+                <ScalarProperty Name="LastEditedBy" ColumnName="LastEditedBy" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
